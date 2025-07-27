@@ -7,6 +7,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
+from src.components.data_transformation import DataTransformation,DataTransformationConfig
+
 #The @dataclass decorator is used to automatically generate special methods
 # for your class, like __init__(), __repr__(), and __eq__().
 @dataclass
@@ -20,7 +22,7 @@ class DataIngestion:
         # getting the objects from the DataIngestion Config
         self.ingestion_config=DataIngestionConfig()
 
-    def initiate_data_inngestion(self):
+    def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method or component")
         try:
             df=pd.read_csv('notebook/data/stud.csv')
@@ -46,5 +48,8 @@ class DataIngestion:
             raise CustomException(e,sys)
             
 if __name__=='__main__':
-    obj=DataIngestion()
-    obj.initiate_data_inngestion()
+    data_ingestion_obj=DataIngestion()
+    # Assuming data_ingestion_obj is already created and has train_data and test_data paths
+    train_data, test_data = data_ingestion_obj.initiate_data_ingestion()
+    data_transformation = DataTransformation()
+    train_arr, test_arr, preprocessor_path = data_transformation.initiate_data_transformation(train_data, test_data)
